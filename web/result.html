@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>推荐学校</title>
+    <style>
+        *{margin: 0;padding: 0}
+        img{border: none;width: 100%;height: 100%; }
+        .title p:nth-child(2){font-size: .8rem;}
+        .slider{color:#000; margin:10px auto;min-width: 320px; }
+        .slider dt{ background:#ccc; cursor:pointer; overflow:hidden; border-bottom:1px solid #fff; height:5rem;border-radius: 5px;padding: .7rem 0 .7rem 1rem;line-height: 2.5rem;font-size: 2rem; }
+        .slider dt p:nth-last-child(2){font-size: 1.6rem;}
+        .slider dt.slider_open{background:#f88b00; color:#fff}
+        .slider dd{ display:none; background:#eee; border-bottom:1px dashed #fafafa; overflow:hidden;padding: 0 1rem;text-indent: 2em;color: #333}
+        .slider dd p{ padding:10px 20px; overflow:hidden; }
+        .school_des{font-weight: bold; margin-left: -3rem; font-size: 1rem;color: #000;}
+        #downApp{width: 54%;margin: 1rem auto;;display: none;}
+        #downApp img{width: 100%;}
+        #downApp p{text-align: center;font-size: 1.3rem ;}
+    </style>
+</head>
+<body>
+<article class="article">
+    <dl class="slider">
+    </dl>
+    <div id="downApp">
+        <img src="image/App.png" alt="下载APP">
+        <p>长按下载app</p>
+        <img src="image/weixin.jpg" alt="下载APP">
+        <p>长按关注我们</p>
+    </div>
+
+</article>
+
+
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="jquery.min.js"></script>
+<script>
+    var schoolObj = {
+        schoolInfo: {},
+        init: function () {
+            var url = window.location.href;
+			var timestamp = 1475115298;
+			var randomStr = '123456';
+			var signature = '';
+			$.ajax({
+				type: "post",
+				url: "http://bjapp.feichuguo.cn/fly/weixin.do?action=getSignature",//URL
+				data: {
+					url:url,
+					timestamp:timestamp,
+					randomStr:randomStr
+				},
+				dataType: "json",
+				async: true,
+				success: function (data) {
+					console.log(data);
+					signature = data.result;
+					
+					wx.config({
+						debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+						appId: 'wx999a8164b4639856', // 必填，公众号的唯一标识
+						timestamp: timestamp, // 必填，生成签名的时间戳
+						nonceStr: randomStr, // 必填，生成签名的随机串
+						signature: signature,// 必填，签名，见附录1
+						jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+					});
+
+					wx.ready(function () {
+						wx.onMenuShareTimeline({
+							title: '专属于你的选校神器', // 分享标题
+							link: 'http://bjapp.feichuguo.cn/school_choice.html', // 分享链接
+							imgUrl: 'http://bjapp.feichuguo.cn/48540923dd54564e421f1defb4de9c82d0584fea.png', // 分享图标
+							success: function () {
+							},
+							cancel: function () {
+								// 用户取消分享后执行的回调函数
+							}
+						});
+
+						wx.onMenuShareAppMessage({
+							title: '专属于你的选校神器', // 分享标题
+							desc: '花费短短的60秒，为你的留学之路扫清障碍，从此改变人生轨迹！', // 分享描述
+							link: 'http://bjapp.feichuguo.cn/school_choice.html', // 分享链接
+							imgUrl: 'http://bjapp.feichuguo.cn/48540923dd54564e421f1defb4de9c82d0584fea.png', // 分享图标
+							type: '', // 分享类型,music、video或link，不填默认为link
+							dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+							success: function () {
+							},
+							cancel: function () {
+								// 用户取消分享后执行的回调函数
+							}
+						});
+					});
+				}
+			});
+
+
+            this.schoolInfo = sessionStorage.getItem("schoolProfile");
+
+            this.schoolInfo = JSON.parse(schoolObj.schoolInfo);
+            $('#downApp').show();
+            var htmlStr = '';
+            for (var i = 0; i < this.schoolInfo.length; i++) {
+                htmlStr += '<dt><p class="class=slider_open title"><p>' + this.schoolInfo[i].name + '</p><p> ' + schoolObj.schoolInfo[0].enName + '</p></p></dt>\
+                <dd><div class="logoImg"><img id="logoPic" src=' + this.schoolInfo[i].logoPicture + ' alt=""></div>\
+                        <p class="desc"><p class="school_des">学校概况</p>' + schoolObj.schoolInfo[i].desc + '</p>\
+                        <p class="price_ck"><p class="school_des">相关费用</p>' + schoolObj.schoolInfo[i].price_ck + '</p>\
+                        <p class="subject"><p class="school_des">专业介绍</p>' + schoolObj.schoolInfo[i].subject + '</p>\
+                        <p class="honour"><p class="school_des">校友风采</p>' + schoolObj.schoolInfo[i].honour + '</p>\
+                        <p class="flyDic"><p class="school_des">住宿介绍</p>' + schoolObj.schoolInfo[i].flyDic + '</p></dd>'
+
+            }
+            $('.slider').html(htmlStr);
+
+            if (!schoolObj.schoolInfo[0].logoPicture) {
+                $('.logoImg').hide()
+            }
+
+            var flag = 0;
+            var $dt = $('.slider dt');
+            var $dd = $('.slider dd');
+
+            if (schoolObj.schoolInfo.length == 1) {
+                $dd.eq(0).show();
+            }
+            $dt.eq(0).css('cursor', 'default');
+
+            $dt.click(function () {
+                flag = $dt.index(this);
+                if ($(this).hasClass('curSchool')) {
+
+                    $dd.eq(flag).slideUp(1000);
+                    $dd.eq(flag).css('cursor', 'pointer').removeClass('slider_open');
+                    $(this).removeClass('curSchool');
+
+                } else {
+
+                    flag = $dt.index(this);
+                    $dd.not($dd.eq(flag)).slideUp(1000);
+                    $dd.eq(flag).slideDown(1000);
+                    $dt.eq(flag).css('cursor', 'default').addClass('slider_open');
+                    $('.slider_open').addClass('curSchool');
+                    $dt.not($dt.eq(flag)).css('cursor', 'pointer').removeClass('slider_open');
+                }
+
+            });
+
+        }
+
+    };
+
+
+    schoolObj.init();
+
+
+</script>
+</body>
+</html>

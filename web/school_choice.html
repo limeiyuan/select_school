@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+    <meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT" />
+    <meta http-equiv="Cache-Control" content="no-cache,must-revalidate" />
+    <meta name="format-detection" content="telephone=no"/>
+    <title>择校</title>
+    <style>
+        *{padding: 0;margin: 0;-webkit-tap-highlight-color: transparent;-webkit-appearance: none; }
+        .bg{background: #fff;min-width: 320px;max-width: 720px;margin: 0 auto;padding-bottom: 1.5rem;overflow: hidden}
+        .tie{padding: 1rem 1rem 1.5rem 1rem;}
+        dl{margin: 0 auto;border-bottom: 1.2rem solid #eee;padding: 3rem 0;}
+        .tie dl dt{margin: 1rem;}
+        .tie dl dd{display: inline-block;border: 1px solid #eee;border-radius: 5px;text-align: center;line-height: 2rem;margin: 3% 2%;;padding: 0 1rem;}
+        .tie .cur_sele{border-color: #f88b00;background: url(image/choice.png)no-repeat right top;background-size: 34% 50%;}
+        span{cursor: pointer;font-size: .8rem;float: right;padding: 0 1rem;}
+        textarea{border: 1px solid #eee;border-radius: 5px;padding: .4rem;margin: .2rem auto;display: block;}
+        .sele_top{margin-top: 2rem;}
+        #sbuBtn{background: #f88b00;margin: 0 auto 2rem;;width: 50%;text-align: center;color: #fff;line-height: 3rem; border-radius: 5px;}
+        .error{clear: both;display: none;padding-top: 1rem;}
+        .error img{width: 90%;margin: 0 auto;display: block;}
+        #downApp{width: 54%;margin: 1rem auto;;}
+        #downApp img{width: 100%;margin: 1rem auto 0;}
+        #downApp p{text-align: center;font-size: 0.9rem;}
+        .tie  .disBok{display: block;width: 60%;margin: 3% auto;background-size: 12% 50%;}
+    </style>
+</head>
+<body>
+<div class="bg">
+    <div class="tie">
+        <dl>
+            <dt class="queTite">1.留学意向国家(可多选)</dt>
+            <dd class="mul_choice" subcode="a" titIndex="1">澳大利亚</dd>
+            <dd class="mul_choice" subcode="b" titIndex="1">新西兰</dd>
+            <dd class="mul_choice" subcode="c" titIndex="1">英国</dd>
+            <dd class="mul_choice" subcode="d" titIndex="1">美国</dd>
+            <dd class="mul_choice" subcode="e" titIndex="1">欧洲</dd>
+            <dd class="mul_choice" subcode="f" titIndex="1">加拿大</dd>
+            <dd class="mul_choice" subcode="g" titIndex="1">韩国</dd>
+            <dd class="mul_choice" subcode="h" titIndex="1">日本</dd>
+            <dd class="mul_choice" subcode="i" titIndex="1">新加坡</dd>
+            <dd class="mul_choice" subcode="j" titIndex="1">香港</dd>
+        </dl>
+        <dl>
+            <dt class="queTite">2.目前就读年纪</dt>
+            <dd class="ra_choice" subcode="a" titIndex="2">小学</dd>
+            <dd class="ra_choice" subcode="b" titIndex="2">初一</dd>
+            <dd class="ra_choice" subcode="c" titIndex="2">初二</dd>
+            <dd class="ra_choice" subcode="d" titIndex="2">初三</dd>
+            <dd class="ra_choice" subcode="e" titIndex="2">高一</dd>
+            <dd class="ra_choice" subcode="f" titIndex="2">高二</dd>
+            <dd class="ra_choice" subcode="g" titIndex="2">高三</dd>
+            <dd class="ra_choice" subcode="h" titIndex="2">大一</dd>
+            <dd class="ra_choice" subcode="i" titIndex="2">大二</dd>
+            <dd class="ra_choice" subcode="j" titIndex="2">大三</dd>
+            <dd class="ra_choice" subcode="k" titIndex="2">大四</dd>
+            <dd class="ra_choice" subcode="l" titIndex="2">硕士在读</dd>
+            <dd class="ra_choice" subcode="m" titIndex="2">硕士毕业</dd>
+        </dl>
+        <dl>
+            <dt class="queTite">3.计划出国时间</dt>
+            <dd class="ra_choice" subcode="a" titIndex="3">2016</dd>
+            <dd class="ra_choice" subcode="b" titIndex="3">2017</dd>
+            <dd class="ra_choice" subcode="c" titIndex="3">2018</dd>
+            <dd class="ra_choice" subcode="d" titIndex="3">三年以后</dd>
+        </dl>
+        <dl>
+            <dt class="queTite">4.目前就读专业</dt>
+            <dd class="ra_choice" subcode="a" titIndex="4">商科</dd>
+            <dd class="ra_choice" subcode="b" titIndex="4">工程</dd>
+            <dd class="ra_choice" subcode="c" titIndex="4">文科</dd>
+            <dd class="ra_choice" subcode="d" titIndex="4">理科</dd>
+            <dd class="ra_choice" subcode="e" titIndex="4">计算机</dd>
+            <dd class="ra_choice" subcode="f" titIndex="4">设计</dd>
+            <dd class="ra_choice" subcode="g" titIndex="4">艺术</dd>
+        </dl>
+        <dl>
+            <dt class="queTite">5.目前在读成绩GPA</dt>
+            <dd class="ra_choice disBok" subcode="a" titIndex="5">小于70分</dd>
+            <dd class="ra_choice disBok" subcode="b" titIndex="5">大于等于70小于75</dd>
+            <dd class="ra_choice disBok" subcode="c" titIndex="5">大于等于75小于80</dd>
+            <dd class="ra_choice disBok" subcode="d" titIndex="5">大于等于80小于85</dd>
+            <dd class="ra_choice disBok" subcode="e" titIndex="5">大于等于85</dd>
+        </dl>
+        <dl>
+            <dt class="queTite">6.在读学校分类</dt>
+            <dd class="ra_choice" subcode="a" titIndex="6">211</dd>
+            <dd class="ra_choice" subcode="b" titIndex="6">985</dd>
+            <dd class="ra_choice" subcode="c" titIndex="6">双非</dd>
+        </dl>
+        <dl>
+            <dt class="queTite">7.雅思成绩</dt>
+            <dd class="ra_choice disBok" subcode="a" titIndex="7">完全不会</dd>
+            <dd class="ra_choice disBok" subcode="b" titIndex="7">中学英语水平(雅思3分)</dd>
+            <dd class="ra_choice disBok" subcode="c" titIndex="7">大学英语4级(雅思4分)</dd>
+            <dd class="ra_choice disBok" subcode="d" titIndex="7">大学英语6级(雅思5分)</dd>
+            <dd class="ra_choice disBok" subcode="e" titIndex="7">大学英语6级优秀(雅思6分)</dd>
+            <dd class="ra_choice disBok" subcode="f" titIndex="7">专业英语8级(雅思7分以上)</dd>
+        </dl>
+        <dl>
+            <dt class="queTite">8.托福成绩</dt>
+            <dd class="ra_choice disBok" subcode="a" titIndex="8">大于等于75小于80</dd>
+            <dd class="ra_choice disBok" subcode="b" titIndex="8">大于等于80小于90</dd>
+            <dd class="ra_choice disBok" subcode="c" titIndex="8">大于等于90小于100</dd>
+            <dd class="ra_choice disBok" subcode="d" titIndex="8">大于等于100小于120</dd>
+        </dl>
+        <dl>
+            <dt class="queTite">9.个人特长</dt>
+            <dd class="ra_choice" subcode="a" titIndex="9">竞技类</dd>
+            <dd class="ra_choice" subcode="b" titIndex="9">专业类</dd>
+            <dd class="ra_choice" subcode="c" titIndex="9">艺术类</dd>
+        </dl>
+        <dl>
+            <dt class="queTite">10.背景提升</dt>
+            <textarea titIndex="10" name="" cols="50" rows="6" placeholder="如果有请填写" id="backdrop"></textarea></dl>
+        <dl>
+            <dt class="queTite">11.工作经验</dt>
+            <dd class="ra_choice disBok" subcode="a" titIndex="11">小于1年</dd>
+            <dd class="ra_choice disBok" subcode="b" titIndex="11">大于1年小于等于3年</dd>
+            <dd class="ra_choice disBok" subcode="c" titIndex="11">大于3年小于等于5年</dd>
+            <dd class="ra_choice disBok" subcode="d" titIndex="11">大于5年小于等于10年</dd>
+            <dd class="ra_choice disBok" subcode="e" titIndex="11">大于10年</dd>
+        </dl>
+        <dl>
+            <dt class="queTite">12.留学经费预算</dt>
+            <textarea titIndex="12" name="" cols="50" rows="3" placeholder="点击输入您的预算" id="budget"></textarea></dl>
+        <dl class="undergraduate">
+            <dt class="queTite">13.SAT成绩(美国本科才有此题)</dt>
+            <dd class="ra_choice disBok" subcode="a" titIndex="13">小于等于1600</dd>
+            <dd class="ra_choice disBok" subcode="b" titIndex="13">大于1600小于等于1800</dd>
+            <dd class="ra_choice disBok" subcode="c" titIndex="13">大于1800小于等于2000</dd>
+            <dd class="ra_choice disBok" subcode="d" titIndex="13">大于2000小于等于2200</dd>
+        </dl>
+        <dl class="postgraduate">
+            <dt class="queTite">13.GMAT成绩(美国研究生才有此题)</dt>
+            <dd class="ra_choice disBok" subcode="a" titIndex="13">小于等于550</dd>
+            <dd class="ra_choice disBok" subcode="b" titIndex="13">大于550小于等于600</dd>
+            <dd class="ra_choice disBok" subcode="c" titIndex="13">大于600小于等于650</dd>
+            <dd class="ra_choice disBok" subcode="d" titIndex="13">大于650小于等于700</dd>
+            <dd class="ra_choice disBok" subcode="e" titIndex="13">大于700</dd>
+        </dl>
+    </div>
+    <p id="sbuBtn">确认提交</p>
+    <div class="sele_top">
+        <p class="error"><img src="image/error.png" alt=""></p>
+        <div id="downApp">
+            <img src="image/App.png" alt="下载APP">
+            <p>长按下载app</p>
+            <img src="image/weixin.jpg" alt="下载APP">
+            <p>长按关注我们</p>
+        </div>
+
+    </div>
+
+    <div id="sbu">
+
+    </div>
+</div>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="jquery.min.js"></script>
+<script type="text/javascript">
+
+    var schoolSect = {
+        data: {},
+        answers1: [],
+        answers2: '',
+        answers3: '',
+        answers4: '',
+        answers5: '',
+        answers6: '',
+        answers7: '',
+        answers8: '',
+        answers9: '',
+        answers10: '',
+        answers11: '',
+        answers12: '',
+        answers13: '',
+        sequence: [],
+        signature:/singlemessage /.test(window.location.href) ? '7ec814c0e669bf380219bfe6f3ae15951758f55d' : 'd39c285b5a29d1e1225748f8105dd1b98908361a',
+        that: {},
+
+        init: function () {
+
+			//获取微信签名
+			var url = window.location.href;
+			var timestamp = 1475115298;
+			var randomStr = '123456';
+			var signature = '';
+			$.ajax({
+				type: "post",
+				url: "http://bjapp.feichuguo.cn/fly/weixin.do?action=getSignature",//URL
+				data: {
+					url:url,
+					timestamp:timestamp,
+					randomStr:randomStr
+				},
+				dataType: "json",
+				async: true,
+				success: function (data) {
+					console.log(data);
+					signature = data.result;
+					
+					wx.config({
+						debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+						appId: 'wx999a8164b4639856', // 必填，公众号的唯一标识
+						timestamp: timestamp, // 必填，生成签名的时间戳
+						nonceStr: randomStr, // 必填，生成签名的随机串
+						signature: signature,// 必填，签名，见附录1
+						jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+					});
+
+					wx.ready(function () {
+						wx.onMenuShareTimeline({
+							title: '专属于你的选校神器', // 分享标题
+							link: 'http://bjapp.feichuguo.cn/school_choice.html', // 分享链接
+							imgUrl: 'http://bjapp.feichuguo.cn/48540923dd54564e421f1defb4de9c82d0584fea.png', // 分享图标
+							success: function () {
+							},
+							cancel: function () {
+								// 用户取消分享后执行的回调函数
+							}
+						});
+
+						wx.onMenuShareAppMessage({
+							title: '专属于你的选校神器', // 分享标题
+							desc: '花费短短的60秒，为你的留学之路扫清障碍，从此改变人生轨迹！', // 分享描述
+							link: 'http://bjapp.feichuguo.cn/school_choice.html', // 分享链接
+							imgUrl: 'http://bjapp.feichuguo.cn/48540923dd54564e421f1defb4de9c82d0584fea.png', // 分享图标
+							type: '', // 分享类型,music、video或link，不填默认为link
+							dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+							success: function () {
+							},
+							cancel: function () {
+								// 用户取消分享后执行的回调函数
+							}
+						});
+					});
+				}
+			});
+
+            var mul_choice = document.querySelectorAll('.mul_choice');
+
+            for (var j = 0; j < mul_choice.length; j++) {
+                mul_choice[j].onclick = function () {
+                    schoolSect.titIndex = $(this).attr("titindex");
+                    schoolSect.that = this;
+                    if ($(this).hasClass('cur_sele')) {
+                        $(this).removeClass('cur_sele');
+                    } else {
+                        $(this).addClass('cur_sele');
+                    }
+
+                    schoolSect.answerSet();
+                }
+            }
+            var ra_choice = document.querySelectorAll('.ra_choice');
+            for (var n = 0; n < ra_choice.length; n++) {
+                ra_choice[n].onclick = function () {
+                    schoolSect.that = this;
+                    schoolSect.titIndex = $(this).attr("titindex");
+                    // console.log($(this).attr("titindex"));
+                    if ($(this).hasClass('cur_sele')) {
+                        $(this).removeClass('cur_sele');
+                    } else {
+                        $(this).addClass('cur_sele');
+                    }
+                    var siblings = $(this).siblings();
+                    for (var k = 0; k < siblings.length; k++) {
+                        // .className = "";
+                        $(siblings[k]).removeClass('cur_sele');
+                    }
+
+                    schoolSect.judgAns();
+                    schoolSect.answerSet();
+                }
+            }
+
+
+            var sbuBtn = document.querySelector("#sbuBtn");
+            if (sbuBtn) {
+                sbuBtn.onclick = function () {
+                    schoolSect.answers10 = encodeURIComponent($('#backdrop').val());
+                    schoolSect.answers12 = encodeURIComponent($('#budget').val());
+                    schoolSect.showLoginWaitCurr();
+                    schoolSect.answerSet();
+                    post_data = {};
+                    post_data.answer1 = schoolSect.answers1.join();
+                    post_data.answer2 = schoolSect.answers2;
+                    post_data.answer3 = schoolSect.answers3;
+                    post_data.answer4 = schoolSect.answers4;
+                    post_data.answer5 = schoolSect.answers5;
+                    post_data.answer6 = schoolSect.answers6;
+                    post_data.answer7 = schoolSect.answers7;
+                    post_data.answer8 = schoolSect.answers8;
+                    post_data.answer9 = schoolSect.answers9;
+                    post_data.answer10 = schoolSect.answers10;
+                    post_data.answer11 = schoolSect.answers11;
+                    post_data.answer12 = schoolSect.answers12;
+                    post_data.answer13 = schoolSect.answers13;
+                    $.ajax({
+                        type: "post",
+                        url: "http://bjapp.feichuguo.cn/fly/school.do?action=selectSchoolByAnswer",//URL
+                        dataType: "json",
+                        async: true,
+                        data: post_data,
+                        success: function (data) {
+                            console.log(data);
+                            if (data.result == '') {
+                                $('.error').show();
+                                $('#downApp').show();
+                                $('.tie').hide();
+                                $('#pre_que').hide();
+                                $('#sbuBtn').hide();
+
+                            } else {
+                                sessionStorage.setItem('schoolProfile', JSON.stringify(data.result));
+                                window.location.href = 'result.html';
+                            }
+
+                            schoolSect.hideLoginWaitCurr()
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+                        }
+                    });
+                }
+            }
+
+
+        },
+
+        showLoginWaitCurr: function (top, left) {
+            var page = $('body');
+            if (!page.find('#loginWait') || page.find('#loginWait').length <= 0) {
+                var loadingHtml = '\
+			<div name="a" style="position:fixed;width:100%;height:100%;top:0;display:none;z-index:1001;background-color:rgba(0,0,0,0);" id="loginWait">\
+			<div style="position:absolute;height:100%;width:100%;">\
+			<div id="loadding" style="position:absolute;width:140px;height:80px;border-radius:8px;-webkit-box-shadow: rgb(236, 236, 236) 0px 1px 1px;background:rgba(255, 255, 255,0.8);text-align:center;top:45%">\
+			<img src="image/load.gif" style="position:relative;top:29%;width:25%;"></div>\
+			</div>\
+			</div>';
+                page.append(loadingHtml);
+            }
+            page.find("#loadding").css("left", $("body").width() / 2 - 70); //页面初始化让loadding居中
+            page.find('#loginWait').css("top", top);
+            page.find('#loginWait').show();
+        },
+        hideLoginWaitCurr: function () {
+            $('body').find("#loginWait").hide();
+        },
+        answerSet: function () {
+            var ansObj = $($(schoolSect.that).parent()).find('.cur_sele');
+            switch (schoolSect.titIndex) {
+                case "1":
+                    schoolSect.answers1 = [];
+                    for (var n = 0; n < ansObj.length; n++) {
+                        schoolSect.answers1.push($(ansObj[n]).attr('subCode'));
+                    }
+                    break;
+                case "2":
+                    schoolSect.answers2 = $(schoolSect.that).attr('subCode');
+                    break;
+                case "3":
+                    schoolSect.answers3 = $(schoolSect.that).attr('subCode');
+                    break;
+                case "4":
+                    schoolSect.answers4 = $(schoolSect.that).attr('subCode');
+                    break;
+                case "5":
+                    schoolSect.answers5 = $(schoolSect.that).attr('subCode');
+                    break;
+                case "6":
+                    schoolSect.answers6 = $(schoolSect.that).attr('subCode');
+                    break;
+                case "7":
+                    schoolSect.answers7 = $(schoolSect.that).attr('subCode');
+                    break;
+                case "8":
+                    schoolSect.answers8 = $(schoolSect.that).attr('subCode');
+                    break;
+                case "9":
+                    schoolSect.answers9 = $(schoolSect.that).attr('subCode');
+                    break;
+                case "10":
+                    schoolSect.answers10 = encodeURIComponent($('textarea').val());
+                    break;
+                case "11":
+                    schoolSect.answers11 = $(schoolSect.that).attr('subCode');
+                    break;
+                case "12":
+                    schoolSect.answer12 = encodeURIComponent($('textarea').val());
+                    break;
+                case "13":
+                    schoolSect.answer13 = $(schoolSect.that).attr('subCode') ? $(schoolSect.that).attr('subCode') : '';
+                    break;
+                case "14":
+                    schoolSect.answer13 = $(schoolSect.that).attr('subCode') ? $(schoolSect.that).attr('subCode') : '';
+                    break;
+            }
+        },
+        judgAns: function () {
+            if (schoolSect.answers1.indexOf('d') == -1 || schoolSect.answers2 == 'a' || schoolSect.answers2 == 'b' || schoolSect.answers2 == 'c' || schoolSect.answers2 == 'd' || schoolSect.answers2 == 'e' || schoolSect.answers2 == 'i') { //不是美国或不符合本科生 研究生资格
+                $('.undergraduate').hide();
+                $('.postgraduate').hide()
+            } else if (schoolSect.answers1.indexOf('d') != -1 && (schoolSect.answers2 == 'f' || schoolSect.answers2 == 'g' || schoolSect.answers2 == 'h')) { //本科
+                $('.postgraduate').hide();
+                $('.undergraduate').show()
+            } else if (schoolSect.answers1.indexOf('d') != -1 && (schoolSect.answers2 == 'j' || schoolSect.answers2 == 'k' || schoolSect.answers2 == 'l' || schoolSect.answers2 == 'm')) { //研究生
+                $('.postgraduate').show();
+                $('.undergraduate').hide()
+            } else {
+                $('.undergraduate').hide();
+                $('.postgraduate').hide()
+            }
+        }
+
+    };
+
+
+    schoolSect.init();
+
+
+</script>
+</body>
+</html>
