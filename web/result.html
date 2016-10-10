@@ -62,7 +62,7 @@
                 dataType: "json",
                 async: true,
                 success: function (data) {
-                    console.log(data);
+                   // console.log(data);
                     signature = data.result;
 
                     wx.config({
@@ -115,8 +115,8 @@
                         <p class="desc"><p class="school_des">学校概况</p>' + schoolObj.schoolInfo[i].desc + '</p>\
                         <p class="price_ck"><p class="school_des">相关费用</p>' + schoolObj.schoolInfo[i].price_ck + '</p>\
                         <p class="subject"><p class="school_des">专业介绍</p>' + schoolObj.schoolInfo[i].subject + '</p>\
-                        <p class="honour"><p class="school_des">校友风采</p>' + schoolObj.schoolInfo[i].honour + '</p>\
-                        <p class="flyDic"><p class="school_des">住宿介绍</p>' + schoolObj.schoolInfo[i].flyDic + '</p></dd>'
+                        <p class="honour"><p class="school_des">学校荣誉/校友风采</p>' + schoolObj.schoolInfo[i].honour + '</p>\
+                        <p class="flyDic"><p class="school_des">学校特色/住宿介绍</p>' + schoolObj.schoolInfo[i].flyDic + '</p></dd>'
 
             }
             $('.slider').html(htmlStr);
