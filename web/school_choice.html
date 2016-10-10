@@ -13,17 +13,20 @@
     <style>
         *{padding: 0;margin: 0;-webkit-tap-highlight-color: transparent;-webkit-appearance: none; }
         .bg{background: #fff;min-width: 320px;max-width: 720px;margin: 0 auto;padding-bottom: 1.5rem;overflow: hidden}
-        .tie{padding: 1rem 1rem 1.5rem 1rem;}
-        dl{margin: 0 auto;border-bottom: 1.2rem solid #eee;padding: 3rem 0;}
-        .tie dl dt{margin: 1rem;}
-        .tie dl dd{display: inline-block;border: 1px solid #eee;border-radius: 5px;text-align: center;line-height: 2rem;margin: 3% 2%;;padding: 0 1rem;}
+        #tel{padding: 1.5rem; margin: 1rem auto -1rem;}
+        #tel input{outline: none;border: 1px solid #ddd;line-height: 2rem;padding-left: .5rem;margin-left: .8rem;border-radius: 5px;;}
+        .tie{padding: 0 1rem 1.5rem 1rem;}
+        dl{margin: 0 auto;border-bottom: 1px solid #eee;padding: 3rem 1rem;}
+        .tie dl dt{margin:1rem -.6rem;}
+        .tie dl dd{display: inline-block;border: 1px solid #eee;border-radius: 5px;text-align: center;line-height: 2.2rem;margin: 3% 2%;;padding:0 .5rem;}
         .tie .cur_sele{border-color: #f88b00;background: url(image/choice.png)no-repeat right top;background-size: 34% 50%;}
         span{cursor: pointer;font-size: .8rem;float: right;padding: 0 1rem;}
-        textarea{border: 1px solid #eee;border-radius: 5px;padding: .4rem;margin: .2rem auto;display: block;}
+        textarea{border: 1px solid #eee;border-radius: 5px;padding: .4rem;margin: .2rem auto;display: block;width: 86%;height: 5rem;}
         .sele_top{margin-top: 2rem;}
         #sbuBtn{background: #f88b00;margin: 0 auto 2rem;;width: 50%;text-align: center;color: #fff;line-height: 3rem; border-radius: 5px;}
         .error{clear: both;display: none;padding-top: 1rem;}
         .error img{width: 90%;margin: 0 auto;display: block;}
+        #error_tip{width: 90%;margin: 4rem auto 1rem;color: red;font-size: 0.9rem;text-align: center;line-height: 1rem;}
         #downApp{width: 54%;margin: 1rem auto;;}
         #downApp img{width: 100%;margin: 1rem auto 0;}
         #downApp p{text-align: center;font-size: 0.9rem;}
@@ -117,7 +120,7 @@
         </dl>
         <dl>
             <dt class="queTite">10.背景提升</dt>
-            <textarea titIndex="10" name="" cols="50" rows="6" placeholder="如果有请填写" id="backdrop"></textarea></dl>
+            <textarea titIndex="10" name="" cols="" rows="" placeholder="如果有请填写" id="backdrop"></textarea></dl>
         <dl>
             <dt class="queTite">11.工作经验</dt>
             <dd class="ra_choice disBok" subcode="a" titIndex="11">小于1年</dd>
@@ -128,7 +131,7 @@
         </dl>
         <dl>
             <dt class="queTite">12.留学经费预算</dt>
-            <textarea titIndex="12" name="" cols="50" rows="3" placeholder="点击输入您的预算" id="budget"></textarea></dl>
+            <textarea titIndex="12" name="" cols="" rows="" placeholder="点击输入您的预算" id="budget"></textarea></dl>
         <dl class="undergraduate">
             <dt class="queTite">13.SAT成绩(美国本科才有此题)</dt>
             <dd class="ra_choice disBok" subcode="a" titIndex="13">小于等于1600</dd>
@@ -145,6 +148,8 @@
             <dd class="ra_choice disBok" subcode="e" titIndex="13">大于700</dd>
         </dl>
     </div>
+    <p id="tel">联系电话:<input id="contactTel" type="tel" placeholder="请输入您的电话" maxlength='11'></p>
+    <p id="error_tip"></p>
     <p id="sbuBtn">确认提交</p>
     <div class="sele_top">
         <p class="error"><img src="image/error.png" alt=""></p>
@@ -157,9 +162,6 @@
 
     </div>
 
-    <div id="sbu">
-
-    </div>
 </div>
 <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script src="jquery.min.js"></script>
@@ -181,67 +183,68 @@
         answers12: '',
         answers13: '',
         sequence: [],
-        signature:/singlemessage /.test(window.location.href) ? '7ec814c0e669bf380219bfe6f3ae15951758f55d' : 'd39c285b5a29d1e1225748f8105dd1b98908361a',
+        contactTel: '',
+        signature: /singlemessage /.test(window.location.href) ? '7ec814c0e669bf380219bfe6f3ae15951758f55d' : 'd39c285b5a29d1e1225748f8105dd1b98908361a',
         that: {},
 
         init: function () {
 
-			//获取微信签名
-			var url = window.location.href;
-			var timestamp = 1475115298;
-			var randomStr = '123456';
-			var signature = '';
-			$.ajax({
-				type: "post",
-				url: "http://bjapp.feichuguo.cn/fly/weixin.do?action=getSignature",//URL
-				data: {
-					url:url,
-					timestamp:timestamp,
-					randomStr:randomStr
-				},
-				dataType: "json",
-				async: true,
-				success: function (data) {
-					console.log(data);
-					signature = data.result;
-					
-					wx.config({
-						debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-						appId: 'wx999a8164b4639856', // 必填，公众号的唯一标识
-						timestamp: timestamp, // 必填，生成签名的时间戳
-						nonceStr: randomStr, // 必填，生成签名的随机串
-						signature: signature,// 必填，签名，见附录1
-						jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-					});
+            //获取微信签名
+            var url = window.location.href;
+            var timestamp = 1475115298;
+            var randomStr = '123456';
+            var signature = '';
+            $.ajax({
+                type: "post",
+                url: "http://bjapp.feichuguo.cn/fly/weixin.do?action=getSignature",//URL
+                data: {
+                    url: url,
+                    timestamp: timestamp,
+                    randomStr: randomStr
+                },
+                dataType: "json",
+                async: true,
+                success: function (data) {
+                    console.log(data);
+                    signature = data.result;
 
-					wx.ready(function () {
-						wx.onMenuShareTimeline({
-							title: '专属于你的选校神器', // 分享标题
-							link: 'http://bjapp.feichuguo.cn/school_choice.html', // 分享链接
-							imgUrl: 'http://bjapp.feichuguo.cn/48540923dd54564e421f1defb4de9c82d0584fea.png', // 分享图标
-							success: function () {
-							},
-							cancel: function () {
-								// 用户取消分享后执行的回调函数
-							}
-						});
+                    wx.config({
+                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId: 'wx999a8164b4639856', // 必填，公众号的唯一标识
+                        timestamp: timestamp, // 必填，生成签名的时间戳
+                        nonceStr: randomStr, // 必填，生成签名的随机串
+                        signature: signature,// 必填，签名，见附录1
+                        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                    });
 
-						wx.onMenuShareAppMessage({
-							title: '专属于你的选校神器', // 分享标题
-							desc: '花费短短的60秒，为你的留学之路扫清障碍，从此改变人生轨迹！', // 分享描述
-							link: 'http://bjapp.feichuguo.cn/school_choice.html', // 分享链接
-							imgUrl: 'http://bjapp.feichuguo.cn/48540923dd54564e421f1defb4de9c82d0584fea.png', // 分享图标
-							type: '', // 分享类型,music、video或link，不填默认为link
-							dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-							success: function () {
-							},
-							cancel: function () {
-								// 用户取消分享后执行的回调函数
-							}
-						});
-					});
-				}
-			});
+                    wx.ready(function () {
+                        wx.onMenuShareTimeline({
+                            title: '专属于你的选校神器', // 分享标题
+                            link: 'http://bjapp.feichuguo.cn/school_choice.html', // 分享链接
+                            imgUrl: 'http://bjapp.feichuguo.cn/48540923dd54564e421f1defb4de9c82d0584fea.png', // 分享图标
+                            success: function () {
+                            },
+                            cancel: function () {
+                                // 用户取消分享后执行的回调函数
+                            }
+                        });
+
+                        wx.onMenuShareAppMessage({
+                            title: '专属于你的选校神器', // 分享标题
+                            desc: '花费短短的60秒，为你的留学之路扫清障碍，从此改变人生轨迹！', // 分享描述
+                            link: 'http://bjapp.feichuguo.cn/school_choice.html', // 分享链接
+                            imgUrl: 'http://bjapp.feichuguo.cn/48540923dd54564e421f1defb4de9c82d0584fea.png', // 分享图标
+                            type: '', // 分享类型,music、video或link，不填默认为link
+                            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                            success: function () {
+                            },
+                            cancel: function () {
+                                // 用户取消分享后执行的回调函数
+                            }
+                        });
+                    });
+                }
+            });
 
             var mul_choice = document.querySelectorAll('.mul_choice');
 
@@ -263,7 +266,6 @@
                 ra_choice[n].onclick = function () {
                     schoolSect.that = this;
                     schoolSect.titIndex = $(this).attr("titindex");
-                    // console.log($(this).attr("titindex"));
                     if ($(this).hasClass('cur_sele')) {
                         $(this).removeClass('cur_sele');
                     } else {
@@ -281,8 +283,8 @@
 
 
             var sbuBtn = document.querySelector("#sbuBtn");
-            if (sbuBtn) {
-                sbuBtn.onclick = function () {
+            sbuBtn.onclick = function () {
+                if (schoolSect.telVer()) {
                     schoolSect.answers10 = encodeURIComponent($('#backdrop').val());
                     schoolSect.answers12 = encodeURIComponent($('#budget').val());
                     schoolSect.showLoginWaitCurr();
@@ -301,6 +303,7 @@
                     post_data.answer11 = schoolSect.answers11;
                     post_data.answer12 = schoolSect.answers12;
                     post_data.answer13 = schoolSect.answers13;
+                    post_data.contactTel = schoolSect.contactTel;
                     $.ajax({
                         type: "post",
                         url: "http://bjapp.feichuguo.cn/fly/school.do?action=selectSchoolByAnswer",//URL
@@ -348,9 +351,6 @@
             page.find("#loadding").css("left", $("body").width() / 2 - 70); //页面初始化让loadding居中
             page.find('#loginWait').css("top", top);
             page.find('#loginWait').show();
-        },
-        hideLoginWaitCurr: function () {
-            $('body').find("#loginWait").hide();
         },
         answerSet: function () {
             var ansObj = $($(schoolSect.that).parent()).find('.cur_sele');
@@ -415,6 +415,20 @@
             } else {
                 $('.undergraduate').hide();
                 $('.postgraduate').hide()
+            }
+        },
+        telVer: function () {
+            schoolSect.contactTel = $('#contactTel').val();
+            //  rb.settings.param = param;
+            if (!schoolSect.contactTel) {				//手机号是否为空
+                $('#error_tip').html('手机号不能为空').show();
+                return false;
+            } else if (!/^((13|14|15|17|18)){1}\d{9}$/.test(schoolSect.contactTel)) {  //是否为正确手机号
+                $('#error_tip').html('请输入正确的手机号').show();
+                return false;
+            } else {
+                $('#error_tip').html('');
+                return true;
             }
         }
 
