@@ -166,6 +166,90 @@
 <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script src="jquery.min.js"></script>
 <script type="text/javascript">
+    var nickname = "";//用户微信号
+    var city = "";//用户微信城市
+    var avatar = "";//用户微信头像url
+    //微信sdk初始化
+    function wx_init(data) {
+        var signature = data.sign;
+        var timestamp = data.timestamp;
+        var randomStr = data.randomStr;
+        var appId = data.appId;
+        var secret = data.secret;
+        wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: 'wx999a8164b4639856', // 必填，公众号的唯一标识
+            timestamp: timestamp, // 必填，生成签名的时间戳
+            nonceStr: randomStr, // 必填，生成签名的随机串
+            signature: signature,// 必填，签名，见附录1
+            jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        });
+
+        wx.ready(function () {
+            wx.onMenuShareTimeline({
+                title: '专属于你的选校神器', // 分享标题
+                link: 'http://bjapp.feichuguo.cn/school_choice.html', // 分享链接
+                imgUrl: 'http://bjapp.feichuguo.cn/48540923dd54564e421f1defb4de9c82d0584fea.png', // 分享图标
+                success: function () {
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+
+            wx.onMenuShareAppMessage({
+                title: '专属于你的选校神器', // 分享标题
+                desc: '花费短短的60秒，为你的留学之路扫清障碍，从此改变人生轨迹！', // 分享描述
+                link: 'http://bjapp.feichuguo.cn/school_choice.html', // 分享链接
+                imgUrl: 'http://bjapp.feichuguo.cn/48540923dd54564e421f1defb4de9c82d0584fea.png', // 分享图标
+                type: '', // 分享类型,music、video或link，不填默认为link
+                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function () {
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+        });
+
+        <!--获取用户微信信息-->
+        var code = getQueryString("code");
+        if (code) {
+            var url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + appId + "&secret=" + secret + "&code=" +
+                    code + "&grant_type=authorization_code";
+            $.get({
+                url: "url",
+                dataType: "json",
+                success: function (res) {
+                    if (res.access_token) {
+                        var access_token = res.access_token;
+                        var openId = res.openid;
+                        url = "https://api.weixin.qq.com/sns/userinfo?access_token=" + access_token + "&openid=" + +openId + "&lang=zh_CN";
+                        $.get({
+                            url: "url",
+                            dataType: "json",
+                            success: function (res) {
+                                if (res.openid) {
+                                    nickname = res.nickname;
+                                    city = res.city;
+                                    avatar = res.headimgurl;
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+</script>
+<script type="text/javascript">
 
     var schoolSect = {
         data: {},
@@ -188,11 +272,10 @@
         that: {},
 
         init: function () {
-
             //获取微信签名
             var url = window.location.href;
-            var timestamp = 1475115298;
-            var randomStr = '123456';
+            var timestamp = new Date().getTime();
+            var randomStr = (Math.random()).toString(36).substring(2, 8);
             var signature = '';
             $.ajax({
                 type: "post",
@@ -204,45 +287,11 @@
                 },
                 dataType: "json",
                 async: true,
-                success: function (data) {
-                    console.log(data);
-                    signature = data.result;
-
-                    wx.config({
-                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                        appId: 'wx999a8164b4639856', // 必填，公众号的唯一标识
-                        timestamp: timestamp, // 必填，生成签名的时间戳
-                        nonceStr: randomStr, // 必填，生成签名的随机串
-                        signature: signature,// 必填，签名，见附录1
-                        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-                    });
-
-                    wx.ready(function () {
-                        wx.onMenuShareTimeline({
-                            title: '专属于你的选校神器', // 分享标题
-                            link: 'http://bjapp.feichuguo.cn/school_choice.html', // 分享链接
-                            imgUrl: 'http://bjapp.feichuguo.cn/48540923dd54564e421f1defb4de9c82d0584fea.png', // 分享图标
-                            success: function () {
-                            },
-                            cancel: function () {
-                                // 用户取消分享后执行的回调函数
-                            }
-                        });
-
-                        wx.onMenuShareAppMessage({
-                            title: '专属于你的选校神器', // 分享标题
-                            desc: '花费短短的60秒，为你的留学之路扫清障碍，从此改变人生轨迹！', // 分享描述
-                            link: 'http://bjapp.feichuguo.cn/school_choice.html', // 分享链接
-                            imgUrl: 'http://bjapp.feichuguo.cn/48540923dd54564e421f1defb4de9c82d0584fea.png', // 分享图标
-                            type: '', // 分享类型,music、video或link，不填默认为link
-                            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-                            success: function () {
-                            },
-                            cancel: function () {
-                                // 用户取消分享后执行的回调函数
-                            }
-                        });
-                    });
+                success: function (response) {
+                    if (!!response.success) {
+                        data = response.result;
+                        wx_init(data);
+                    }
                 }
             });
 
@@ -304,6 +353,10 @@
                     post_data.answer12 = schoolSect.answers12;
                     post_data.answer13 = schoolSect.answers13;
                     post_data.contactTel = schoolSect.contactTel;
+                    post_data.nickname = nickname;
+                    post_data.city = city;
+                    post_data.avatar = avatar;
+
                     $.ajax({
                         type: "post",
                         url: "http://bjapp.feichuguo.cn/fly/school.do?action=selectSchoolByAnswer",//URL
